@@ -66,13 +66,24 @@ jobs:
         # Extract the zip file
         7z x ffripper.zip -y
 
-        # Check if Chrome Remote Desktop's remoting_start_host.exe exists and start it if found
-        $chromeRemoteDesktopPath = "${Env:PROGRAMFILES(X86)}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe"
-        if (Test-Path $chromeRemoteDesktopPath) {
-            & $chromeRemoteDesktopPath
-        } else {
-            Write-Host "Chrome Remote Desktop's remoting_start_host.exe not found at $chromeRemoteDesktopPath. Skipping this step."
+        # Search for Chrome Remote Desktop's remoting_start_host.exe and start it if found
+        function Start-RemoteDesktop {
+            $remoteDesktopPaths = @(
+                "${Env:PROGRAMFILES(X86)}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe",
+                "${Env:PROGRAMFILES}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe"
+            )
+
+            foreach ($path in $remoteDesktopPaths) {
+                if (Test-Path $path) {
+                    & $path
+                    return
+                }
+            }
+
+            Write-Host "Chrome Remote Desktop's remoting_start_host.exe not found in expected paths. Skipping this step."
         }
+
+        Start-RemoteDesktop
 
         # Check if Noesis64.exe exists and start it if found
         $noesisPath = "C:\Users\$Env:USERNAME\Documents\noesis\Noesis64.exe"
