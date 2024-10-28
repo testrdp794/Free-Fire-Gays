@@ -82,7 +82,7 @@ jobs:
 
     - name: Keep Connection Active
       run: |
-        $i = 360
+        $i = 2000
         do {
             Write-Host $i
             Start-Sleep 60
