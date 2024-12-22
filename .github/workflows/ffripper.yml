@@ -4,14 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       code:
-        description: Paste Chrome Remote Desktop Code
+        description: Nhập mã
         required: true
 
 jobs:
   build:
-    name: Free Fire Ripper Lab Running
+    name: Free Fire Ripper Đang chạy
     runs-on: windows-latest
-    timeout-minutes: 360
+    timeout-minutes: 99999
 
     steps:
     - name: Disable Firewall Profiles
@@ -85,6 +85,6 @@ jobs:
         $i = 2000
         do {
             Write-Host $i
-            Start-Sleep 60
+            Start-Sleep 70
             $i--
         } while ($i -gt 0)
